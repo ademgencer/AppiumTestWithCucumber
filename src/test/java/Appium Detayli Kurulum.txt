@@ -1,0 +1,123 @@
+Appium
+
+1.  IDE gerekli (Android Studio, IntelliJ)
+2.  JAVA SDK gerekli (JAVA_HOME olarak environmet variable'a eklenirse iyi olur.
+    Normalde kurulum Path kismina ekleyecektir)
+3.  Android SDK lazim
+    a.  Android Studio kurulursa otomatik kurulur
+    b.  IntelliJ icinde yeni proje olarak Android secilirse, Android SDK kurulu degilse kurulmasi icin uyarir.
+        Buradan Android SDK kurulabilir.(veya web den download edilip kurulabilir)
+        Normalde c:\users\{kullanici}\AppData\Local\Android\Sdk
+
+    Android yolunun environmet variable icine ANDROID_HOME olarak eklenmesi gerekir.
+
+4.  Appium kurulumu
+    a.  Appium Gui ile kurulabilir.
+        Bir windows uygulamasidir. Install edilir.
+    b.  npm ile yüklenebir.
+        npm icin, nodejs kurulmali. Nodejs indirilir ve kurulur.
+        (c:\Program Files\Nodejs) Kurulum sonrasi bu yol Path'e otomatik yazilir.
+        consolda   "" npm install appium -g  "" yazarak appium kurulur.
+        Appium :  c:\users\{kullanici}\AppData\Roaming\npm\node_modules\appium\lib
+        Bu yol da environmets variable icin APPIUM_HOME olarak girilmeli
+
+5.  Appium inspector
+    Google aratilir. Install dosyasi indirilir ve kurulur.
+    Cep telefonu ya da Emülatöre baglanmak icin Appium calistirilmali.
+    Uygulamada istenen gerekli olan desired capabilities girilmeli.
+    {
+      "appium:udid": "ce10171a1be3db2f01",
+      "appium:version": "11",
+      "appium:deviceName": "Galaxy Note Fan Edition",
+      "appium:realDevice": false,
+      "platformName": "Android"
+    }
+(ip ile bağlanmışsak "appium:udid": 192.168.1.23:5555 yazılır)
+
+6.  Android SDK kurulunca IntelliJ de Tools-->Android-->AVD Manager calistirilir.
+    Acilan pencereden istenilen Emülatör olusturulup kullanilir.
+    Emülatör kurulumu sonrasi, üst menüde sanal disk uyarisi cikar. Bu link ile sanal disk olusturulmali.
+    Böylece emülatör icinde dosya indirme islemleri yapilabilir.
+
+7.   adb devices
+    Android SDK ile birlikte gelir (Android\Sdk\platform_tools içinden cmd+ENTER > adb sonra adb devices + ENTER ile de çalıştırılabilir.)
+    consolda " >adb devices " yazilirsa bilgisayara bagli tüm cihazlari verir
+
+    Android Cep telefonunun Developer modu acik ve USB Debugging acik olmali
+    Developer mode  Ayarlar-->Telefon Bilgisi-->Build Number(yapım numarası)'a 7-8 defa tiklayarak acilir.
+    Developer mode acilinca Ayarlar altında en altta "Geliştirici Secenekleri" sekmesi yer alir. Buradan USB Debugging acilmali.
+    USB Debugging acildiktan sonra ">adb devices" komutu ile cihaz görülebilir. Eğer görülmezse \Android\Sdk\platform_tools klasörü içinden cmd+ENTER ile console açılarak adb + ENTER ve sonra da "adb devices + ENTER" ile de çalıştırılabilir.
+
+    consolda asagidaki gibi cikti olmali.
+
+    >adb devices {ENTER}
+    ce10171a1be3db2f01   device
+
+    ce10171a1be3db2f01 : Bagli cihazin udid'i(unique id)
+
+
+
+
+    cep tel'in ip'si 192.168.0.50 ise(ip her bağlantıda değişebilir, telefon ayarlar -> hakkında ->  durum dan bakılır)
+    cep telefonu bilgisayara bagli iken Consolda
+    >adb tcpip 5555 {ENTER}     // 5555 sart degil herhangi bir port
+    cep telefonu bilgisayardan cikartilir
+    >adb connect 192.168.0.50:5555 {ENTER}    //  ile cep telefonuna wifi ile baglanilir
+    connected to 192.168.0.50:5555 şeklinde çıktı olur.
+
+    >adb devices {ENTER}        // yapilirsa
+    192.168.0.50:5555  device   // bu sekilde cikti olur.
+
+    >adb disconnect 192.168.0.50:5555       // ile baglanti kesilir
+
+8.  Apk info
+    Appium testi icin cihaz ve test edilecek uygulama bilgileri gerekli.
+    Cihaz bilgiler üstte verildi.
+    Uygulama icin desired capability olarak "appPackage" ve "appActivity" gerekli
+    Bu ise basit olarak, play storedan indirilecek "AppInfo" uygulamasi ile bulunur.
+    Apk Infodan Api Demos açılar -> Actities -> En üstte MainActivity bilgisi yer alır.
+	Veya cmd'de:
+            >adb shell
+	            >dumpsys window | grep -E 'mCurrentFocus'
+	   Açık uygulamanın appPackage/appActivity şeklinde getirir.
+
+9. EMULATOR KULLANIMI:
+	
+	Android Studio IDE den önce Emulator oluşturulmalıdır:
+	1. SideBar da Device Manager
+	2. Create device
+	3. Next next next ...
+	Emulatörün ilk kurulumu uzun sürebilir, sonrasında adb devices dersek emulator-5554 gözükür.
+
+	C:\Users\work\AppData\Local\Android\Sdk\emulator klasöründe cmd açılır.
+	* console da >emulator>emulator -list-avds -> kurulu emulatorleri listeler
+	* Galaxy_Note_Fan
+	* Pixel_2_API_34
+	* C:\Users\work\AppData\Local\Android\Sdk\emulator>emulator -avd Galaxy_Note_Fan 
+	(veya Pixel_2_API_34) diyerek emulator run edilebilir, android Studioya gerek kalmaz.
+	* adb devices -> ce10171a1be3db2f01      device
+			 emulator-5554   device bağlı gerçek ve sanal cihazlar görünür.
+	* Appium Inspector da bağlanmak için udid: emulator-5554 yazılmalıdır.
+	* İnternetten istenen Apk indirilip Emulatörün üstüne sürükleresek dosyayı otomatik kurar.
+	* Gerçek telefona göre emulatör kullanımı PC yi zorlar.
+
+9. Uyumlu dependency ler: Her versiyon uyumlu değil! Rastgele son sürüme güncellleme! :)
+<dependencies>
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>7.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.5</version>
+        </dependency>
+</dependencies>
