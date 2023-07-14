@@ -12,6 +12,12 @@ public enum App {
             "com.sec.android.app.popupcalculator",
             "Calculator",
             ""
+    ),
+
+    HEPSIBURADA(
+      "com.pozitron.hepsiburada",
+      "com.hepsiburada.ui.startup.SplashActivity",
+      ""
     )
     ;
 

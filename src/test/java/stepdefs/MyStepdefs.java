@@ -16,7 +16,7 @@ public class MyStepdefs extends BaseTest implements Locators {
 
     @Given("^user opens \"(APIDEMOS|CALCULATOR)\" on the phone \"(SAMSUNG_GALAXY_FAN|EMULATOR)\"$")
     public void userOpensOnThePhone(String app, String device) {
-        driver = Driver.getDriver(Device.valueOf(device), App.valueOf(app));// Stepteki uygun girilen stringi enum enuma çevirerek alir
+        driver = Driver.getDriver(Device.valueOf(device), App.valueOf(app));// Stepteki uygun girilen stringi enuma çevirerek alir
         //driver = Driver.getDriver(Device.SAMSUNG_GALAXY_FAN, App.APIDEMOS);// Direk enum olarak da alabiliriz.
         wait = new WebDriverWait(driver,20);
 

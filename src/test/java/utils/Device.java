@@ -1,6 +1,7 @@
 package utils;
 
 public enum Device {
+    // Cihaza IP adresiyle kablosuz bağlanacaksak udid IP yazılır.
     SAMSUNG_GALAXY_FAN(
             "ce10171a1be3db2f01",
             "12",

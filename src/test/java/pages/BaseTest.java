@@ -5,13 +5,11 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import utils.App;
-import utils.Device;
-import utils.Driver;
 
 import java.time.Duration;
 
@@ -24,6 +22,8 @@ public class BaseTest {
     public void beforeTest() {
         //driver = Driver.getDriver(Device.SAMSUNG_GALAXY_FAN, App.APIDEMOS);
         //wait = new WebDriverWait(driver,20);
+        // driver ve wait Mystepdefs de initialize edildi bu projede.
+        // Normalde BaseTest in Constructer ında initialize edebiliriz.
     }
 
     @AfterTest
@@ -41,8 +41,16 @@ public class BaseTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(text);
     }
 
+    public void sendKeys(By locator, CharSequence...text){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(text);
+    }
+
     public By xpathContainsText(String text){
         return By.xpath("//*[contains(@text, '" + text + "')]");
+    }
+
+    public By xpathContainsContentDesc(String text){
+        return By.xpath("//*[contains(@content-desc, '" + text + "')]");
     }
 
     public By textLocator(String text){
@@ -76,54 +84,60 @@ public class BaseTest {
      */
     public void swipeUntil(String text){
         while (driver.findElements(xpathContainsText(text)).size() == 0){
-            swipeV(.7,.3);
+            swipeVertical(.7,.3);
         }
     }
 
     /**
-     * swipeV(.7, .3) : ekranin %70'inden %30'una kadar dikey swipe eder
-     * @param start swipe baslama orani, 0-1 arasinda long
-     * @param end swipe bitis orani, 0-1 arasinda long
+     * swipe(.7,.3) -> Ekranın %70 inden %30 una kadar aşağıdan yukarıya dikey kaydırır
+     * İlk parametre daha küçük olursa yukarıdan aşağıya kaydırır.
+     * Ekranın sol üst köşesi (0,0), sağ altı (w1080,h1920) point şeklindedir.
+     *
+     * @param start 0.7 Kaydırma başlangıcı(Ekranın altına yakın)
+     * @param end   0.4 Kaydırma bitişi(Ekranın üstüne yakın)
      */
-    public void swipeV(double start, double end){
-        int w = driver.manage().window().getSize().width;
-        int h = driver.manage().window().getSize().height;
+    public void swipeVertical(double start, double end) {
+        int w = driver.manage().window().getSize().width;// Cihaz ekranının boyunu alır
+        int h = driver.manage().window().getSize().height;// Cihaz ekranının genişliğini alır
 
-        start = Math.min(Math.max(0., start), 1.);
-        end = Math.min(Math.max(0., end), 1.);
+        start = Math.min(Math.max(0., start), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
+        end = Math.min(Math.max(0., end), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
 
-        int startPoint = (int) (start * h);
-        int endPoint = (int) (end * h);
+        int startPoint = (int) (start * h);// 0-1 arası girilen değeri ekranın yüksekliğiyle çarparak ekranın % sini alır
+        int endPoint = (int) (end * h);// 0-1 arası girilen değeri ekranın genişliğiyle çarparak eranın % sini alır
 
-        new TouchAction<>(driver)
-                .press(PointOption.point(w/2, startPoint))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
-                .moveTo(PointOption.point(w/2, endPoint))
-                .release()
-                .perform();
+        new TouchAction<>(driver)// Action Class gibidir, Mobil versiyonu.
+                .press(PointOption.point(w / 2, startPoint))// Ekrana press eder
+                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))// 100 ms bekler
+                .moveTo(PointOption.point(w / 2, endPoint))// Ekranın ilgili kısmına gider
+                .release()// Ekrana dokunmayı bırakır
+                .perform();// Bu planı yürütür.
     }
 
     /**
-     * swipeH(.7, .3) : ekranin %70'inden %30'una kadar yatay swipe eder
-     * @param start swipe baslama orani, 0-1 arasinda long
-     * @param end swipe bitis orani, 0-1 arasinda long
+     * swipe(.7,.3) -> Ekranın %70 inden %30 una yatay kadar kaydırır
+     * İlk parametre daha küçük olursa soldan sağa kaydırır.
+     * Ekranın sol üst köşesi (0,0), sağ altı (w1080,h1920) point şeklindedir.
+     *
+     * @param start 0.7 Kaydırma başlangıcı(Ekranın sağına yakın)
+     * @param end   0.4 Kaydırma bitişi(Ekranın soluna yakın)
      */
-    public void swipeH(double start, double end){
-        int w = driver.manage().window().getSize().width;
-        int h = driver.manage().window().getSize().height;
+    public void swipeHorizontal(double start, double end) {
+        int w = driver.manage().window().getSize().width;// Cihaz ekranının boyunu alır
+        int h = driver.manage().window().getSize().height;// Cihaz ekranının genişliğini alır
 
-        start = Math.min(Math.max(0., start), 1.);
-        end = Math.min(Math.max(0., end), 1.);
+        start = Math.min(Math.max(0., start), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
+        end = Math.min(Math.max(0., end), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
 
-        int startPoint = (int) (start * w);
-        int endPoint = (int) (end * w);
+        int startPoint = (int) (start * w);// 0-1 arası girilen değeri ekranın yüksekliğiyle çarparak ekranın % sini alır
+        int endPoint = (int) (end * w);// 0-1 arası girilen değeri ekranın genişliğiyle çarparak eranın % sini alır
 
-        new TouchAction<>(driver)
-                .press(PointOption.point(startPoint, h/2))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))
-                .moveTo(PointOption.point( endPoint, h/2))
-                .release()
-                .perform();
+        new TouchAction<>(driver)// Action Class gibidir, Mobil versiyonu.
+                .press(PointOption.point(startPoint, h / 2))// Ekrana press eder
+                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))// 100 ms bekler
+                .moveTo(PointOption.point(endPoint, h / 2))// Ekranın ilgili kısmına gider
+                .release()// Ekrana dokunmayı bırakır
+                .perform();// Bu planı yürütür.
     }
 
     public void waitFor(String...texts){
@@ -134,5 +148,12 @@ public class BaseTest {
             }
             return false;
         });
+    }
+
+    public void pauseByActions(long millis){
+        new Actions(driver)
+                .pause(millis)
+                .build()
+                .perform();
     }
 }

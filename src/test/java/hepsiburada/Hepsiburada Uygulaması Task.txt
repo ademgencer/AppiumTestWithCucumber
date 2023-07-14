@@ -1,0 +1,26 @@
+Hepsiburada Uygulaması Task 1:
+
+1) Hepsiburada uygulaması açılır
+2) Anasayfada ürün,kategori veya marka ara alanında "nutella" aratılır (Not: Metin girildi ama search edilemedi!, diğer stepler tamamlandı)
+3) "Hemen Al Sonra Öde" metinli Nutella ya tıklanır
+4) Favorilere ekle butonuna basılır
+5) Çıkan login sayfasından login olunup assert edilir
+6) Listelerim sekmesinden favoriler butonuna basılır
+7) Favorilere eklendiği kontrol edilir
+
+
+
+Hepsiburada Uygulaması Task 2:
+
+1) Hepsiburada uygulaması açılır
+2) Anasayfada "Elektronik" sekmesine tıklanır
+3) Elektronik sayfasından bir ürün grubuna tıklanır
+4) Açılan sayfadan bir ürüne tıklanır (Not: Ürüne tıklanamadı, diğer stepler tamamlandı)
+4) Ürün görseline tıklanır
+5) Görsel sağa doğru scroll edilerek diğer resme geçilir
+6) Görsel kapatılır
+4) Ürünüdeki sepete ekle butonuna basılır
+5) Çıkan login sayfasından login olunur ve login olunduğu assert edilir
+6) Sepetim sekmesine tıklanır
+7) Ürünün Sepete eklendiği kontrol edilir
+
