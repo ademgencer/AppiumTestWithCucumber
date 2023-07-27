@@ -33,44 +33,48 @@ public class BaseTest {
     }
 
 
-    public void click(String text){
+    public void click(String text) {
         click(textLocator(text));
     }
 
-    public void sendKeys(By locator, CharSequence text){
+    public void sendKeys(By locator, CharSequence text) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(text);
     }
 
-    public void sendKeys(By locator, CharSequence...text){
+    public void sendKeys(By locator, CharSequence... text) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(text);
     }
 
-    public By xpathContainsText(String text){
+    public By xpathContainsText(String text) {
         return By.xpath("//*[contains(@text, '" + text + "')]");
     }
 
-    public By xpathContainsContentDesc(String text){
+    public By xpathContainsTextByIndex(String text, int index) {
+        return By.xpath("(//*[contains(@text, '" + text + "')])[" + index + "]");
+    }
+
+    public By xpathContainsContentDesc(String text) {
         return By.xpath("//*[contains(@content-desc, '" + text + "')]");
     }
 
-    public By textLocator(String text){
+    public By textLocator(String text) {
         return By.xpath("//*[@text='" + text + "']");
     }
 
-    public void click(By locator){
+    public void click(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
 
-    public By xpathWithAttribute(String text){
+    public By xpathWithAttribute(String text) {
         return xpathWithAttribute(text, 1);
     }
 
-    public By xpathWithAttribute(String text, int index){
+    public By xpathWithAttribute(String text, int index) {
         return By.xpath("//*[@*[contains(.,'" + text + "')]][" + index + "]");
     }
 
-    public void sleep(long milis){
+    public void sleep(long milis) {
         try {
             Thread.sleep(milis);
         } catch (InterruptedException e) {
@@ -80,11 +84,12 @@ public class BaseTest {
 
     /**
      * Texti aranan element ekranda gözükene kadar swipe eder
+     *
      * @param text
      */
-    public void swipeUntil(String text){
-        while (driver.findElements(xpathContainsText(text)).size() == 0){
-            swipeVertical(.7,.3);
+    public void swipeUntil(String text) {
+        while (driver.findElements(xpathContainsText(text)).size() == 0) {
+            swipeVertical(.7, .3);
         }
     }
 
@@ -140,17 +145,17 @@ public class BaseTest {
                 .perform();// Bu planı yürütür.
     }
 
-    public void waitFor(String...texts){
+    public void waitFor(String... texts) {
         wait.until(driver -> {
             for (String text : texts) {
-                if (driver.findElements(xpathContainsText(text)).size()>0)
+                if (driver.findElements(xpathContainsText(text)).size() > 0)
                     return true;
             }
             return false;
         });
     }
 
-    public void pauseByActions(long millis){
+    public void pauseByActions(long millis) {
         new Actions(driver)
                 .pause(millis)
                 .build()

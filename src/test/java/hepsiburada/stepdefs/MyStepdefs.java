@@ -2,11 +2,14 @@ package hepsiburada.stepdefs;
 
 import hepsiburada.locators.Locators;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -33,15 +36,17 @@ public class MyStepdefs extends BaseTest implements Locators {
 
     @And("Anasayfada {string} aratır")
     public void anasayfadaAratır(String text) {
+        click(lSearch);
         sendKeys(lSearch, text);
-        // driver.findElement(lSearch).sendKeys("" + new KeyEvent(AndroidKey.ENTER));
-        // Enter/Search metodu yazılacak
+        click(xpathContainsTextByIndex(text,2));
         pauseByActions(2000);
 
     }
 
     @And("Çıkan sonuclardan {string} metinli ürünü favorilere ekler")
     public void çıkanSonuclardanMetinliÜrünüFavorilereEkler(String text) {
+        swipeVertical(.7,.3);
+        swipeUntil(text);
         click(lHemenAl);
         click(lFavoriyeEkleButon);
     }
