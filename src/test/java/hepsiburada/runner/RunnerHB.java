@@ -7,7 +7,8 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = {"src/test/java/hepsiburada/features/hepsiburada.feature"},
         glue = {"hepsiburada/stepdefs"},
-        tags = "@favoriyeekle"
+        //tags = "@FavoriyeEkle"
+        tags = "@SwipeYapSepeteEkle"
         //dryRun = true // stepdefs ler tanımlı mı diye bakar sadece.
 
 )

@@ -6,9 +6,9 @@ public interface Locators {
 
     By lSearch = By.id("com.pozitron.hepsiburada:id/etSearchBox");
 
-    By lHemenAl = By.xpath("//*[contains(@text,'Hemen Al')]");
+    By lNutella750g = By.xpath("//*[contains(@text,'NUTELLA Kakaolu Fındık Kreması 750G')]");
 
-    By lFavoriyeEkleButon = By.xpath("//*[@content-desc='favoriye ekle']");
+    By lFavoriyeEkleButon = By.xpath("//android.widget.ImageView[@content-desc=\"favoriye ekle\"]");
 
     By lProductImage = By.id("com.pozitron.hepsiburada:id/productImage");
 
@@ -16,6 +16,11 @@ public interface Locators {
 
     By lImageKapat = By.id("com.pozitron.hepsiburada:id/leftIcon");
 
+    By lEmailInput = By.className("android.widget.EditText");
+
+    By lPasswordInput = By.className("android.widget.EditText");
+
+    By lSepeteEkleButon = By.id("com.pozitron.hepsiburada:id/product_detail_add_to_cart_text");
 
 
 

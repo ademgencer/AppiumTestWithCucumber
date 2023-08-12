@@ -1,23 +1,26 @@
-@hepsiburada
+@Hepsiburada
 Feature: Hepsiburada Uygulaması
 
-  @favoriyeekle
+  @FavoriyeEkle
   Scenario: Hepsiburada uygulaması Favorilere ekleme özelliği test edilir
-    Given Kullanıcı öncesinde uygulamaya login olmuştur
+    Given Kullanıcı önceden uygulamaya SignIn olmuştur
     When Kullanıcı "SAMSUNG_GALAXY_FAN" cihazında "HEPSIBURADA" uygulamasina girer
-    And Anasayfada "nutella" aratır
-    And Çıkan sonuclardan "Hemen Al Sonra Öde" metinli ürünü favorilere ekler
-    And Listelerim sekmesinden favoriler butonuna tıklar
-    Then Favorilere eklendiğini kontrol eder
+    And Anasayfada "NUTELLA" aratır
+    * Arama sonucu "NUTELLA" gelen ilk ürüne tıklar
+    * Ürünü favorilere ekle butonuna tıklar
+    * Çıkan login ekranından login olur
+    * Ekrandaki uyarı yazısında "TAMAM" butonuna tıklanır
+    And Çıkış yapılır
 
 
-    @swipeyap
-    Scenario: Hepsiburada uygulaması Sepete ekleme özelliği test edilir
-      Given Kullanıcı öncesinde uygulamaya login olmuştur
-      When Kullanıcı "SAMSUNG_GALAXY_FAN" cihazında "HEPSIBURADA" uygulamasina girer
-      And Anasayfada "elektronik" sekmesine tıklanır
-      And Elektronik sayfasından bir ürün grubuna tıklar
-      And Açılan sayfada bir ürüne tıklar
-      And Ürün görseline tıklar
-      And Görsel üzerinde sağa doğru swipe yapılarak diğer resme geçilir
-      And Görsel kapatılır
+  @SwipeYapSepeteEkle
+  Scenario: Hepsiburada uygulaması Sepete ekleme özelliği test edilir
+    Given Kullanıcı önceden uygulamaya SignIn olmuştur
+    When Kullanıcı "SAMSUNG_GALAXY_FAN" cihazında "HEPSIBURADA" uygulamasina girer
+    And Anasayfada "Samsung Galaxy Z Flip5 512 GB" ürününü aratır
+    * Açılan sayfada "Samsung Galaxy Z Flip5 512 GB" adında bir ürüne tıklar
+    * Görsel üzerinde sağa doğru swipe yapılarak diğer resimlere geçilir
+    When Kullanıcı "Sepete ekle" ekle butonuna tıklar
+    And "Sepete git" butonuna tıklar
+    Then Ürünün sepete eklendiği kontrol edilir
+    And Çıkış yapılır

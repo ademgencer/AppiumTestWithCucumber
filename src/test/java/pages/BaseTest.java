@@ -61,6 +61,10 @@ public class BaseTest {
         return By.xpath("//*[@text='" + text + "']");
     }
 
+    public By textLocatorByIndex(String text, int index) {
+        return By.xpath("(//*[@text='" + text + "'])[" + index + "]");
+    }
+
     public void click(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
@@ -102,8 +106,8 @@ public class BaseTest {
      * @param end   0.4 Kaydırma bitişi(Ekranın üstüne yakın)
      */
     public void swipeVertical(double start, double end) {
-        int w = driver.manage().window().getSize().width;// Cihaz ekranının boyunu alır
-        int h = driver.manage().window().getSize().height;// Cihaz ekranının genişliğini alır
+        int w = driver.manage().window().getSize().getWidth();// Cihaz ekranının boyunu alır
+        int h = driver.manage().window().getSize().getHeight();// Cihaz ekranının genişliğini alır
 
         start = Math.min(Math.max(0., start), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
         end = Math.min(Math.max(0., end), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
@@ -128,18 +132,18 @@ public class BaseTest {
      * @param end   0.4 Kaydırma bitişi(Ekranın soluna yakın)
      */
     public void swipeHorizontal(double start, double end) {
-        int w = driver.manage().window().getSize().width;// Cihaz ekranının boyunu alır
-        int h = driver.manage().window().getSize().height;// Cihaz ekranının genişliğini alır
+        int w = driver.manage().window().getSize().getWidth();// Cihaz ekranının genişliğini alır
+        int h = driver.manage().window().getSize().getHeight();// Cihaz ekranının yüksekliğini alır
 
         start = Math.min(Math.max(0., start), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
         end = Math.min(Math.max(0., end), 1.);// Negatif veya 1 den büyük değer girmeyi önlüyoruz
 
-        int startPoint = (int) (start * w);// 0-1 arası girilen değeri ekranın yüksekliğiyle çarparak ekranın % sini alır
+        int startPoint = (int) (start * w);// 0-1 arası girilen değeri ekranın genişliğiyle çarparak ekranın % sini alır
         int endPoint = (int) (end * w);// 0-1 arası girilen değeri ekranın genişliğiyle çarparak eranın % sini alır
 
         new TouchAction<>(driver)// Action Class gibidir, Mobil versiyonu.
                 .press(PointOption.point(startPoint, h / 2))// Ekrana press eder
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(100)))// 100 ms bekler
+                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))// 500 ms bekler
                 .moveTo(PointOption.point(endPoint, h / 2))// Ekranın ilgili kısmına gider
                 .release()// Ekrana dokunmayı bırakır
                 .perform();// Bu planı yürütür.

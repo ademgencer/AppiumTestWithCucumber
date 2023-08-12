@@ -2,8 +2,12 @@ package hepsiburada.stepdefs;
 
 import hepsiburada.locators.Locators;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -18,10 +22,11 @@ import utils.App;
 import utils.Device;
 import utils.Driver;
 
+import java.time.Duration;
 import java.util.List;
 
 public class MyStepdefs extends BaseTest implements Locators {
-    @Given("Kullanıcı öncesinde uygulamaya login olmuştur")
+    @Given("Kullanıcı önceden uygulamaya SignIn olmuştur")
     public void kullanıcıÖncesindeUygulamayaLoginOlmuştur() {
     }
 
@@ -29,7 +34,6 @@ public class MyStepdefs extends BaseTest implements Locators {
     public void kullanıcıCihazındaUygulamayaGirer(String device, String app) {
         driver = Driver.getDriver(Device.valueOf(device), App.valueOf(app));
         wait = new WebDriverWait(driver, 10);
-
     }
 
     // Favoriye ekle senaryosu:
@@ -38,78 +42,85 @@ public class MyStepdefs extends BaseTest implements Locators {
     public void anasayfadaAratır(String text) {
         click(lSearch);
         sendKeys(lSearch, text);
-        click(xpathContainsTextByIndex(text,2));
-        pauseByActions(2000);
-
+        //((AndroidDriver<?>)driver).pressKey(new KeyEvent(AndroidKey.SEARCH));// AppiumDriver ı AndroidDriver a Cast ederek extra
+        // metotları kullanabiliriz, SEARCH çalışmıyor, ENTER arama çubuğundan ilk arama önerisine atlıyor, tekrar ENTER yapınca basıyor.
+        click(xpathContainsTextByIndex("nutella", 1));// Arama önerilerinden ilkidir.
     }
 
-    @And("Çıkan sonuclardan {string} metinli ürünü favorilere ekler")
-    public void çıkanSonuclardanMetinliÜrünüFavorilereEkler(String text) {
-        swipeVertical(.7,.3);
-        swipeUntil(text);
-        click(lHemenAl);
+    @And("Arama sonucu {string} gelen ilk ürüne tıklar")
+    public void aramaSonucuGelenIlkÜrüneTıklar(String text) {
+        click(xpathContainsTextByIndex(text, 1));// Arama sonuçlarından ilkidir.
+    }
+
+    @And("Ürünü favorilere ekle butonuna tıklar")
+    public void ürünüFavorilereEkler() {
         click(lFavoriyeEkleButon);
     }
 
-    @And("Listelerim sekmesinden favoriler butonuna tıklar")
-    public void listelerimSekmesindenFavorilerButonunaTıklar() {
-
+    @And("Çıkan login ekranından login olur")
+    public void çıkanLoginEkranındanLoginOlur() {
+        sendKeys(lEmailInput, "ademyasargencer@gmail.com");
+        click(textLocatorByIndex("Giriş yap", 2));// 2.indexli buton
+        pauseByActions(2000);
+        sendKeys(lPasswordInput, "hepsiburada2202");
+        driver.hideKeyboard();// Klavyeyi gizler, butonu engellemesin diye.
+        click(textLocatorByIndex("Giriş yap", 1));// 1.indexli buton
     }
 
-    @Then("Favorilere eklendiğini kontrol eder")
-    public void favorilereEklendiğiniKontrolEder() {
+    @And("Ekrandaki uyarı yazısında {string} butonuna tıklanır")
+    public void ekrandakiUyarıYazısındaButonunaTıklanır(String text) {
+        click(xpathContainsText(text));
+        pauseByActions(2000);
+    }
 
+    @And("Çıkış yapılır")
+    public void çıkışYapılır() {
+        Driver.quit();
     }
 
 
-    // Swipe yap senaryosu:
+    // Swipe yap, sepete ekle senaryosu:
 
-    @And("Anasayfada {string} sekmesine tıklanır")
+    @And("Anasayfada {string} ürününü aratır")
     public void anasayfadaSekmesineTıklanır(String text) {
-        click(xpathContainsContentDesc(text));
+        click(lSearch);
+        sendKeys(lSearch, text);
+        click(xpathContainsTextByIndex(text, 2));
     }
 
-    @And("Elektronik sayfasından bir ürün grubuna tıklar")
-    public void elektronikSayfasındanBirÜrüneTıklar() {
-        click(xpathContainsContentDesc("Seçili Apple Ürünlerinde"));
-        pauseByActions(2000);
-        /*
-        swipeVertical(.7,.3);
-        pauseByActions(2000);
-        swipeVertical(.3,.7);
-        pauseByActions(2000);
-        swipeVertical(.4,.6);
-
-         */
+    @And("Açılan sayfada {string} adında bir ürüne tıklar")
+    public void açılanSayfadaBirÜrüneTıklar(String text) {
+        click(xpathContainsTextByIndex(text, 2));
     }
 
-    @And("Açılan sayfada bir ürüne tıklar")
-    public void açılanSayfadaBirÜrüneTıklar() {
-        //click(xpathWithAttribute("iPhone 11"));
-        //By lIPhone11 = By.xpath("//*[@*[contains(.,'iPhone 11')]]");
-        By lIPhone11_withText = By.xpath("//*[contains(@text,'iPhone 11')]");
-        //driver.findElement(lIPhone11_withText).click();
-        //click(lIPhone11_withText);
-        //click(xpathContainsText("iPhone 11"));
-        click(xpathContainsText("Hemen Al")); // ?
-    }
-
-    @And("Ürün görseline tıklar")
-    public void ürünGörselineTıklar() {
-        click(lProductImage);
-    }
-
-    @And("Görsel üzerinde sağa doğru swipe yapılarak diğer resme geçilir")
+    @And("Görsel üzerinde sağa doğru swipe yapılarak diğer resimlere geçilir")
     public void görselÜzerindeSağaDoğruSwipeYapılarakDiğerResmeGeçilir() {
-        wait.until(ExpectedConditions.elementToBeClickable(lProductImageZoom));
         swipeHorizontal(.8, .2);
+        pauseByActions(1000);
+        swipeHorizontal(.8, .2);
+        pauseByActions(1000);
+        swipeHorizontal(.8, .2);
+        pauseByActions(1000);
+        swipeHorizontal(.8, .2);
+        pauseByActions(1000);
+        swipeHorizontal(.8, .2);
+        pauseByActions(1000);
+
     }
 
-    @And("Görsel kapatılır")
-    public void görselKapatılır() {
-        pauseByActions(2000);
-        click(lImageKapat);
+    @When("Kullanıcı {string} ekle butonuna tıklar")
+    public void kullanıcıEkleButonunaTıklar(String text) {
+        click(lSepeteEkleButon);
     }
 
+    @And("{string} butonuna tıklar")
+    public void butonunaTıklar(String text) {
+        click(text);
+        pauseByActions(8000);
+    }
 
+    @Then("Ürünün sepete eklendiği kontrol edilir")
+    public void ürününSepeteEklendiğiKontrolEdilir() {
+        Driver.quit();
+    }
 }

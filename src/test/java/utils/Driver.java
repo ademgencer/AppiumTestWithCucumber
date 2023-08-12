@@ -45,7 +45,7 @@ public class Driver {
         return driver;
     }
 
-    public static void stop(){
+    public static void quit(){
         driver.quit();
         service.stop();
     }
