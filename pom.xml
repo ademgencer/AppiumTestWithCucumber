@@ -18,7 +18,7 @@
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
             <version>7.6.0</version>
-            <!-- Appium ile uyumlu veriyonu, otomatik Selenyum u da kurar-->
+            <!-- Appium ile uyumlu versiyonu, otomatik Selenyum u da kurar-->
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -35,6 +35,11 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
             <version>7.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>tech.grasshopper</groupId>
+            <artifactId>extentreports-cucumber7-adapter</artifactId>
+            <version>1.13.0</version>
         </dependency>
     </dependencies>
 

@@ -62,7 +62,7 @@ public class MyStepdefs extends BaseTest implements Locators {
         sendKeys(lEmailInput, "ademyasargencer@gmail.com");
         click(textLocatorByIndex("Giriş yap", 2));// 2.indexli buton
         pauseByActions(2000);
-        sendKeys(lPasswordInput, "hepsiburada2202");
+        sendKeys(lPasswordInput, "hepsiburada2202");// Todo: Github paylaşımında password silinecek.
         driver.hideKeyboard();// Klavyeyi gizler, butonu engellemesin diye.
         click(textLocatorByIndex("Giriş yap", 1));// 1.indexli buton
     }
@@ -96,7 +96,7 @@ public class MyStepdefs extends BaseTest implements Locators {
     @And("Görsel üzerinde sağa doğru swipe yapılarak diğer resimlere geçilir")
     public void görselÜzerindeSağaDoğruSwipeYapılarakDiğerResmeGeçilir() {
         swipeHorizontal(.8, .2);
-        pauseByActions(1000);
+        pauseByActions(1000);// Görsel takip için kondu, pause leri silebiliriz.
         swipeHorizontal(.8, .2);
         pauseByActions(1000);
         swipeHorizontal(.8, .2);
@@ -121,6 +121,6 @@ public class MyStepdefs extends BaseTest implements Locators {
 
     @Then("Ürünün sepete eklendiği kontrol edilir")
     public void ürününSepeteEklendiğiKontrolEdilir() {
-        Driver.quit();
+        // Todo: Assertion eklenecek.
     }
 }

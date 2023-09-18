@@ -1,4 +1,4 @@
-@Hepsiburada
+@HepsiBurada
 Feature: Hepsiburada Uygulaması
 
   @FavoriyeEkle

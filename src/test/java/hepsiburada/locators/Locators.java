@@ -6,7 +6,7 @@ public interface Locators {
 
     By lSearch = By.id("com.pozitron.hepsiburada:id/etSearchBox");
 
-    By lNutella750g = By.xpath("//*[contains(@text,'NUTELLA Kakaolu Fındık Kreması 750G')]");
+    By lNutella = By.xpath("//*[contains(@text,'NUTELLA Kakaolu Fındık Kreması')]");
 
     By lFavoriyeEkleButon = By.xpath("//android.widget.ImageView[@content-desc=\"favoriye ekle\"]");
 
@@ -21,7 +21,6 @@ public interface Locators {
     By lPasswordInput = By.className("android.widget.EditText");
 
     By lSepeteEkleButon = By.id("com.pozitron.hepsiburada:id/product_detail_add_to_cart_text");
-
 
 
 }

@@ -25,7 +25,4 @@ Hepsiburada Uygulaması Task 2:
 7) Ürünün Sepete eklendiği kontrol edilir
 8) Çıkış yapılır.
 
-    * Ürün görseline tıklar
-    * Görsel kapatılır
-
 
